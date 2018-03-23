@@ -1,12 +1,13 @@
 //this file will be run when the user wants to run the app
-var express = require('express');
-var bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const {ObjectID} = require('mongodb');
 
 
 //using ES6 destructuring
-var {mongoose} = require('./db/db.js');
-var {Todo} = require('./models/todo.js');
-var {User} = require('./models/user.js');
+const {mongoose} = require('./db/db.js');
+const {Todo} = require('./models/todo.js');
+const {User} = require('./models/user.js');
 
 
 var app = express();
@@ -32,6 +33,22 @@ app.get('/todos', (req, res) => {
     res.send({todos});
   }, (e) => {
     res.status(400).send(e);
+  });
+});
+
+app.get('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  if(!ObjectID.isValid(id)) {
+    res.status(404).send();
+  }
+  Todo.findById(id).then((todos) => {
+    if (!todos) {
+      res.status(404).send();
+    } else {
+      res.send({todos});
+    }
+  }, (e) => {
+    res.status(400).send();
   });
 });
 
