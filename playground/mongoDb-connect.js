@@ -1,6 +1,7 @@
 //for mongodb version 2
 
 //var MongoClient = require('mongodb').MongoClient;
+//loading MongoClient and ObjectID objects from mongodb
 var {MongoClient, ObjectID} = require('mongodb');
 
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
