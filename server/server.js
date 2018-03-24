@@ -5,7 +5,7 @@ const {ObjectID} = require('mongodb');
 
 
 //using ES6 destructuring
-const {mongoose} = require('./db/db.js');
+const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todo.js');
 const {User} = require('./models/user.js');
 
@@ -15,7 +15,7 @@ var app = express();
 
 app.use(bodyParser.json());
 
-//route
+//routes
 app.post('/todos', (req, res) => {
   var newDoc = new Todo ({
     text : req.body.text,
@@ -48,6 +48,21 @@ app.get('/todos/:id', (req, res) => {
     } else {
       res.send({todos});
     }
+  }, (e) => {
+    res.status(400).send();
+  });
+});
+
+app.delete('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  if(!ObjectID.isValid(id)) {
+    res.status(404).send();
+  }
+  Todo.findByIdAndRemove(id).then((todo) => {
+    if(!todo) {
+      return res.status(404).send();
+    }
+    res.status(200).send({todo});
   }, (e) => {
     res.status(400).send();
   });

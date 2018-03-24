@@ -5,7 +5,7 @@ const {Todo} = require('./../server/models/todo');
 const {User} = require('./../server/models/user');
 
 // var id = '57bf38394b39c93d2a557e9811';
-//
+// //in mongoose, you dont have to pass the above in ObjectID
 // if (!ObjectID.isValid(id)) {
 //   console.log('ID not valid');
 // }
